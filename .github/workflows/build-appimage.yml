@@ -1,0 +1,71 @@
+name: Build AppImage
+
+on:
+  push:
+    tags:
+      - 'v*'  # 只在 tag 推送时触发，如 v1.0.0
+  workflow_dispatch:  # 也可以手动触发
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-appimage:
+    name: Build AppImage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Rust cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            build-essential \
+            curl \
+            wget \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libfuse2 \
+            appstream-util \
+            desktop-file-utils \
+            patchelf
+
+      - name: Install appimagetool
+        run: |
+          wget -O appimagetool-xe.tiny https://github.com/AppImage/AppImageTool/releases/download/appimagetool-13.1.0/appimagetool-x86_64.tiny
+          chmod +x appimagetool-xe.tiny
+          sudo mv appimagetool-xe.tiny /usr/local/bin/appimagetool
+
+      - name: Install Bun dependencies
+        run: bun install
+
+      - name: Build AppImage
+        run: bun tauri build
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Koharu.AppImage
+          path: target/release/bundle/appimage/*.appimage
+          retention-days: 30
+
+      - name: Upload AppImage to GitHub release
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v*')
+        uses: jeremyhu/github-actions-release@v1
+        with:
+          path: target/release/bundle/appimage/*.appimage
+          format: json
+          name: Koharu-${{ github.event.release.tag_name }}.AppImage
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
