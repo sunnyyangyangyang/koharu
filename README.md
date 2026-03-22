@@ -2,6 +2,11 @@
 
 [日本語](./docs/README.ja.md) | [简体中文](./docs/README.zh-CN.md)
 
+**Linux Launch Command:**
+```bash
+WEBKIT_DISABLE_COMPOSITING_MODE=1 ./koharu
+```
+
 ML-powered manga translator, written in **Rust**.
 
 Koharu introduces a new workflow for manga translation, utilizing the power of ML to automate the process. It combines the capabilities of object detection, OCR, inpainting, and LLMs to create a seamless translation experience.

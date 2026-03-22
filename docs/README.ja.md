@@ -2,6 +2,11 @@
 
 **Rust**で書かれた、ML（機械学習）搭載のマンガ翻訳ツールです。
 
+**Linux での起動コマンド:**
+```bash
+WEBKIT_DISABLE_COMPOSITING_MODE=1 ./koharu
+```
+
 Koharu は、ML の力を活用して翻訳工程を自動化する、新しいマンガ翻訳ワークフローを提供します。物体検出、OCR、インペインティング、LLM を組み合わせることで、シームレスな翻訳体験を実現します。
 
 内部では、高性能推論のために [candle](https://github.com/huggingface/candle) を使用し、GUI には [Tauri](https://github.com/tauri-apps/tauri) を採用しています。すべてのコンポーネントが Rust で書かれており、安全性と高速性を両立しています。

@@ -2,6 +2,11 @@
 
 基于机器学习（ML）的漫画翻译工具，使用 **Rust** 编写。
 
+**Linux 启动命令：**
+```bash
+WEBKIT_DISABLE_COMPOSITING_MODE=1 ./koharu
+```
+
 Koharu 引入了一种新的漫画翻译工作流，利用机器学习能力自动化翻译流程。它将目标检测、OCR、图像修复（inpainting）和 LLM 结合起来，提供流畅的一体化翻译体验。
 
 在底层实现中，Koharu 使用 [candle](https://github.com/huggingface/candle) 进行高性能推理，使用 [Tauri](https://github.com/tauri-apps/tauri) 构建 GUI。所有组件均使用 Rust 编写，兼顾安全性与性能。
