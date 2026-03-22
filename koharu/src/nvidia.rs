@@ -42,7 +42,7 @@ impl fmt::Display for CudaDriverVersion {
 }
 
 pub fn supports_cuda_12_9() -> Result<bool> {
-    Ok(driver_version()?.supports_cuda_12_9())]
+    Ok(driver_version()?.supports_cuda_12_9())
 }
 
 pub fn driver_version() -> Result<CudaDriverVersion> {
@@ -86,7 +86,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_major_minor_from_driver_version() {
+    fn parses_major_minor_from_cuda_12_9() {
         let version = CudaDriverVersion::from_raw(12090);
         assert_eq!(version.major(), 12);
         assert_eq!(version.minor(), 9);
@@ -100,4 +100,4 @@ mod tests {
         assert!(!CudaDriverVersion::from_raw(12080).supports_cuda_12_9());
         assert!(!CudaDriverVersion::from_raw(11000).supports_cuda_12_9());
     }
-]
+}
